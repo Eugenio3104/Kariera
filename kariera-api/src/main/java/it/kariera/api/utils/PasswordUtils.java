@@ -15,4 +15,8 @@ public class PasswordUtils {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
+    /*Metodo che ci permette di confrontare la password inserita dall'utente con quella salvata nel DB. */
+    public boolean verifyPassword(String password, String hash) {
+        return BCrypt.checkpw(password, hash);
+    }
 }
