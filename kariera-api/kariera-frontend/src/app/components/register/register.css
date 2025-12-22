@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+.mainContainer {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  margin: 0;
+}
+
+.blueSection {
+  flex: 1.5;
+  height: 100%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+.formSection {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+  background-color: white;
+}
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.subTitle {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.subTitle u {
+  cursor: pointer;
+  color: #000;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.inputGroup input {
+  padding: 12px 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.inputGroup input:focus {
+  border-color: #3b82f6;
+}
+
+.signUpBtn {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px;
+  background: linear-gradient(to right, #3b82f6, #1e3a8a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
+  transition: opacity 0.3s;
+}
+
+.signUpBtn:hover {
+  opacity: 0.9;
+}
