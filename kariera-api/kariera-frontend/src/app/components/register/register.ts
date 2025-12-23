@@ -14,18 +14,27 @@ import {CommonModule} from '@angular/common';
 export class RegisterComponent {
 
   user:User = {name:'', surname:'', email:'', password:''};
+  errorMessage: string = '';
+  showPassword: boolean = false;
 
   constructor(private authService: AuthService ,private router: Router) { }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   onRegister() {
+    this.errorMessage = '';
     this.authService.registration(this.user).subscribe({
       next: (res) => {
-        alert('Registrazione completata con successo!');
         this.router.navigate(['/courses']);
       },
       error: (err) => {
-        console.error(err);
-        alert('Errore nella registrazione: ' + (err.error || 'Riprova più tardi'));
+        if (err.status === 400) {
+          this.errorMessage = err.error?.error || "This email address is already associated with an account. Please try logging in.";
+        } else {
+          this.errorMessage = "A system error occurred. Please try again later.";
+        }
       }
     });
   }

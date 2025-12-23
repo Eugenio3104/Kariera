@@ -29,6 +29,7 @@
   padding: 0 10%;
   background-color: white;
 }
+
 .title {
   font-size: 2.5rem;
   font-weight: bold;
@@ -100,3 +101,75 @@ form {
 .signUpBtn:hover {
   opacity: 0.9;
 }
+
+.errorText {
+  color: #d93025;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
+
+.serverError {
+  color: #d93025;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: shake 0.5s;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1.5px solid #d93025;
+  background-color: #fff8f8;
+}
+
+.signUpBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+.passwordWrapper {
+  position: relative;
+  display: block;
+}
+
+.passwordWrapper input {
+  width: 100%;
+  padding-right: 45px;
+  box-sizing: border-box;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.togglePassword:hover {
+  opacity: 0.6;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.togglePassword:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.togglePassword img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  pointer-events: none;
+}
+
