@@ -1,4 +1,4 @@
-CREATE TABLE exam (
+CREATE TABLE IF NOT EXISTS exam (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
