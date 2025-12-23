@@ -24,7 +24,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody User user){
         try{
             authService.register(user);
-            return ResponseEntity.ok("registered successfully");
+            return ResponseEntity.ok(java.util.Map.of("status", "registered successfully"));
          }catch (Exception e){return ResponseEntity.badRequest().body(e.getMessage());}
     }
 
@@ -33,7 +33,7 @@ public class AuthController {
         try{
             User user = authService.login(loginRequestDTO.getEmail(),loginRequestDTO.getPassword());
             session.setAttribute("user", user);
-            return ResponseEntity.ok("log in successfully");
+            return ResponseEntity.ok(user);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
