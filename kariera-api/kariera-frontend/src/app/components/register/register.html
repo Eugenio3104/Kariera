@@ -8,25 +8,25 @@
     <form>
       <div class="inputGroup">
         <label>Name : </label>
-        <input type="text">
+        <input type="text" name="name" [(ngModel)]="user.name">
       </div>
 
       <div class="inputGroup">
         <label>Surname : </label>
-        <input type="text">
+        <input type="text" name="surname" [(ngModel)]="user.surname">
       </div>
 
       <div class="inputGroup">
         <label>Email address : </label>
-        <input type="email">
+        <input type="email" name="email" [(ngModel)]="user.email">
       </div>
 
       <div class="inputGroup">
         <label>Password : </label>
-        <input type="password">
+        <input type="password" name="password" [(ngModel)]="user.password">
       </div>
 
-      <button type="button" class="signUpBtn">Sign Up</button>
+      <button type="button" class="signUpBtn" (click)="onRegister()">Sign Up</button>
     </form>
   </div>
 </main>
