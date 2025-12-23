@@ -5,18 +5,26 @@
     <h1 class="title">Log in</h1>
     <p class="subTitle">Don't have an account? <b routerLink="/registration"><u>Sign up</u></b></p>
 
-    <form>
+    <form #loginForm="ngForm">
       <div class="inputGroup">
         <label>Email address : </label>
-        <input type="email" name="email" [(ngModel)]="login.email">
+        <input type="email" name="email" [(ngModel)]="login.email" #email="ngModel" required email>
+        <div *ngIf="email.invalid && email.touched">
+          <small class="errorText" *ngIf="email.errors?.['required']">Email address is required.</small>
+          <small class="errorText" *ngIf="email.errors?.['email']">Invalid email format.</small>
+        </div>
       </div>
 
       <div class="inputGroup">
         <label>Password : </label>
-        <input type="password" name="password" [(ngModel)]="login.password">
+        <input type="password" name="password" [(ngModel)]="login.password" #password="ngModel" required>
+        <small class="errorText" *ngIf="password.invalid && password.touched">Password is required.</small>
       </div>
 
-      <button type="button" class="signInBtn" (click)="onLogin()">Sign In</button>
-    </form>
+      <div class="serverError" *ngIf="errorMessage">
+        <small>{{ errorMessage }}</small>
+      </div>
+
+      <button type="button" class="signInBtn" [disabled]="loginForm.invalid" (click)="onLogin()">Sign In</button></form>
   </div>
 </main>

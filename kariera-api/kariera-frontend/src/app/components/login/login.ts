@@ -16,20 +16,26 @@ import {Login} from '../../models/login.model';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-
-  login:Login = {email:'', password:''};
+  login = { email: '', password: '' };
+  errorMessage: string = '';
 
   constructor(private authService: AuthService , private router: Router) {}
 
   onLogin(){
+    this.errorMessage = '';
+
     this.authService.login(this.login).subscribe({
       next: (res) => {
         this.authService.setLoggedUser(res);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        alert('Email o password errati');
+        if (err.status === 401 || err.status === 400) {
+          this.errorMessage = "This account is not registered. Please check your email or sign up.";
+        } else {
+          this.errorMessage = "Invalid email or password  . Please try again later.";
+        }
       }
-    })
+    });
   }
 }
