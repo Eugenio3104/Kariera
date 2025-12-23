@@ -17,7 +17,14 @@
 
       <div class="inputGroup">
         <label>Password : </label>
-        <input type="password" name="password" [(ngModel)]="login.password" #password="ngModel" required>
+        <div class="passwordWrapper">
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="login.password"
+            #password="ngModel" required>
+          <button type="button" class="togglePassword" (click)="togglePasswordVisibility()" tabindex="-1">
+            <img *ngIf="!showPassword" src="assets/togglePassword/eye-visibile.png" alt="Show password">
+            <img *ngIf="showPassword" src="assets/togglePassword/eye-invisible.png" alt="Hide password">
+          </button>
+        </div>
         <small class="errorText" *ngIf="password.invalid && password.touched">Password is required.</small>
       </div>
 

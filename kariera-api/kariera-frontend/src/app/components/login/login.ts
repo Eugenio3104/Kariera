@@ -3,7 +3,6 @@ import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../services/auth';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {Login} from '../../models/login.model';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +17,13 @@ import {Login} from '../../models/login.model';
 export class LoginComponent {
   login = { email: '', password: '' };
   errorMessage: string = '';
+  showPassword: boolean = false;
 
   constructor(private authService: AuthService , private router: Router) {}
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   onLogin(){
     this.errorMessage = '';

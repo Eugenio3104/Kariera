@@ -130,3 +130,46 @@ input.ng-invalid.ng-touched {
   opacity: 0.7;
 }
 
+.passwordWrapper {
+  position: relative;
+  display: block;
+}
+
+.passwordWrapper input {
+  width: 100%;
+  padding-right: 45px;
+  box-sizing: border-box;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.togglePassword:hover {
+  opacity: 0.6;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.togglePassword:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.togglePassword img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  pointer-events: none;
+}
+

@@ -15,8 +15,13 @@ export class RegisterComponent {
 
   user:User = {name:'', surname:'', email:'', password:''};
   errorMessage: string = '';
+  showPassword: boolean = false;
 
   constructor(private authService: AuthService ,private router: Router) { }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   onRegister() {
     this.errorMessage = '';

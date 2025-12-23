@@ -32,8 +32,16 @@
 
       <div class="inputGroup">
         <label>Password : </label>
-        <input type="password" name="password" [(ngModel)]="user.password" #password="ngModel" required minlength="8">
-        <small class="errorText" *ngIf="password.invalid && password.touched">Password is required (min. 8 characters).</small>
+        <div class="passwordWrapper">
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="user.password"
+            #password="ngModel" required minlength="8">
+          <button type="button" class="togglePassword" (click)="togglePasswordVisibility()" tabindex="-1">
+            <img *ngIf="!showPassword" src="assets/togglePassword/eye-visibile.png" alt="Show password">
+            <img *ngIf="showPassword" src="assets/togglePassword/eye-invisible.png" alt="Hide password">
+          </button>
+        </div>
+        <small class="errorText" *ngIf="password.invalid && password.touched">Password is required (min. 8
+          characters).</small>
       </div>
 
       <div class="serverError" *ngIf="errorMessage">
