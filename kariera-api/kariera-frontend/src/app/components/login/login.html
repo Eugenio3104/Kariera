@@ -3,20 +3,20 @@
 
   <div class="formSection">
     <h1 class="title">Log in</h1>
-    <p class="subTitle">Don't have an account? <b><u>Sign up</u></b></p>
+    <p class="subTitle">Don't have an account? <b routerLink="/registration"><u>Sign up</u></b></p>
 
     <form>
       <div class="inputGroup">
-        <label>Email address</label>
-        <input type="email">
+        <label>Email address : </label>
+        <input type="email" name="email" [(ngModel)]="login.email">
       </div>
 
       <div class="inputGroup">
-        <label>Password</label>
-        <input type="password">
+        <label>Password : </label>
+        <input type="password" name="password" [(ngModel)]="login.password">
       </div>
 
-      <button type="button" class="signInBtn">Sign In</button>
+      <button type="button" class="signInBtn" (click)="onLogin()">Sign In</button>
     </form>
   </div>
 </main>
