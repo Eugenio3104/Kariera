@@ -27,6 +27,7 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.authService.registration(this.user).subscribe({
       next: (res) => {
+        this.authService.setLoggedUser(res);
         this.router.navigate(['/courses']);
       },
       error: (err) => {

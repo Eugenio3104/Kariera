@@ -5,10 +5,7 @@ import it.kariera.api.model.User;
 import it.kariera.api.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,10 +18,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user){
+    public ResponseEntity<?> register(@RequestBody User user , HttpSession session){
         try{
-            authService.register(user);
-            return ResponseEntity.ok(java.util.Map.of("status", "registered successfully"));
+            User registredUser = authService.register(user);
+            session.setAttribute("user", registredUser);
+            return ResponseEntity.ok(registredUser);
          }catch (Exception e){return ResponseEntity.badRequest().body(e.getMessage());}
     }
 
@@ -37,5 +35,14 @@ public class AuthController {
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user != null){
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.status(401).body("Not authenticated");
     }
 }

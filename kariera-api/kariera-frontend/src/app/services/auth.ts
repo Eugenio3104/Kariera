@@ -24,7 +24,7 @@ export class AuthService {
 
   //metodo per effettuare la registrazione
   registration(userData : User){
-    return this.http.post(this.auth_api + '/register', userData);
+    return this.http.post(this.auth_api + '/register', userData , { withCredentials: true });
   }
 
   //metodo per il guardiano
@@ -35,6 +35,11 @@ export class AuthService {
   //metodo per salvare l'utente loggato'
   setLoggedUser(user: any){
     this.userLogged = user;
+  }
+
+  //metodo per verificare se c'è una sessione attiva
+  checkSession() {
+    return this.http.get(this.auth_api + '/me', { withCredentials: true });
   }
 
 }
