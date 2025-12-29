@@ -14,7 +14,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header */
 .page-header {
   background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
   color: white;
@@ -30,7 +29,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Main Content */
 .main-content {
   flex: 1;
   padding: 35px;
@@ -39,7 +37,6 @@
   align-items: center;
 }
 
-/* Loading/Error States */
 .loading,
 .error {
   text-align: center;
@@ -71,7 +68,6 @@
   font-size: 16px;
 }
 
-/* Study Areas Grid */
 .areas-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -80,7 +76,6 @@
   max-width: 1200px;
 }
 
-/* Area Card */
 .area-card {
   background: white;
   border-radius: 12px;
@@ -104,7 +99,6 @@
   letter-spacing: 0.3px;
 }
 
-/* Courses List */
 .courses-list {
   padding: 16px 20px 20px 20px;
   display: flex;
@@ -145,7 +139,6 @@
   user-select: none;
 }
 
-/* Actions */
 .actions {
   display: flex;
   justify-content: center;
@@ -180,43 +173,3 @@
   box-shadow: none;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .areas-grid {
-    gap: 25px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .areas-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .main-content {
-    padding: 40px 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .areas-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .main-content {
-    padding: 30px 20px;
-  }
-
-  .page-header {
-    padding: 20px 25px;
-  }
-
-  .page-header h1 {
-    font-size: 22px;
-  }
-
-  .save-btn {
-    padding: 14px 70px;
-    font-size: 17px;
-  }
-}
