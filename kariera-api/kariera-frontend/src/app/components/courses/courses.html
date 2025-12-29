@@ -1,1 +1,42 @@
-<p>courses works!</p>
+<div class="page-container">
+  <header class="page-header">
+    <h1>Choose your study path</h1>
+  </header>
+
+  <div *ngIf="loading" class="loading">
+    Loading...
+  </div>
+
+  <div *ngIf="error" class="error">
+    Error loading courses
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && !error" class="main-content">
+    <div class="areas-grid">
+      <div class="area-card" *ngFor="let area of studyAreas">
+        <h2 class="area-title">{{ area.name }}</h2>
+        <div class="courses-list">
+          <label *ngFor="let course of area.courses" class="course-item">
+            <input type="radio" name="courseSelection" [value]="course.id" [(ngModel)]="selectedCourseId"
+              (change)="selectCourse(course.id)">
+            <span class="course-name">{{ course.name }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" (click)="saveSelection()" [disabled]="!selectedCourseId">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
