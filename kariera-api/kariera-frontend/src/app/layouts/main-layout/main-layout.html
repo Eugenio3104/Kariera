@@ -1,0 +1,38 @@
+<div class="layout-container">
+  <aside class="sidebar-menu">
+    <div class="sidebar-top-section">
+      <div class="application-logo">
+        <span>Kariera</span>
+      </div>
+    </div>
+
+    <div class="user-profile-card" *ngIf="currentUser">
+      <div class="profile-picture">
+        <span>{{ getInitials() }}</span>
+      </div>
+      <div class="profile-info">
+        <h4>{{ currentUser.name }} {{ currentUser.surname }}</h4>
+      </div>
+    </div>
+
+    <nav class="menu-navigation">
+      <a routerLink="/app/dashboard" routerLinkActive="active" class="menu-link">
+        <span>DashBoard</span>
+      </a>
+      <a routerLink="/app/libretto" routerLinkActive="active" class="menu-link">
+        <span>Libretto</span>
+      </a>
+      <a routerLink="/app/prediction" routerLinkActive="active" class="menu-link">
+        <span>Prediction</span>
+      </a>
+      <a routerLink="/app/class-schedule" routerLinkActive="active" class="menu-link">
+        <span>Class Schedule</span>
+      </a>
+    </nav>
+
+  </aside>
+
+  <main class="page-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
