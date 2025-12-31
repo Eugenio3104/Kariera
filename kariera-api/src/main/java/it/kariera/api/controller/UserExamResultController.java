@@ -5,6 +5,7 @@ import it.kariera.api.dto.UserExamDTO;
 import it.kariera.api.model.UserExamResult;
 import it.kariera.api.service.UserExamResultService;
 import org.springframework.http.ResponseEntity;
+import it.kariera.api.dto.UserStatsDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,5 +82,11 @@ public class UserExamResultController {
     public ResponseEntity<Void> deleteUserExamResult(@PathVariable Integer id) {
         userExamResultService.deleteUserExamResult(id);
         return ResponseEntity.ok().build();
+    }
+
+    // Recupera le statistiche di un utente
+    @GetMapping("/by-user/{userId}/statistics")
+    public ResponseEntity<UserStatsDTO> getUserStatistics(@PathVariable Integer userId) {
+        return ResponseEntity.ok(userExamResultService.getUserStats(userId));
     }
 }

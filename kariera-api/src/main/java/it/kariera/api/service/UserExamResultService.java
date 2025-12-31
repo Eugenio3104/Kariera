@@ -5,6 +5,7 @@ import it.kariera.api.dto.ElectiveExamDTO;
 import it.kariera.api.dto.UserExamDTO;
 import it.kariera.api.model.UserExamResult;
 import org.springframework.stereotype.Service;
+import it.kariera.api.dto.UserStatsDTO;
 
 import java.util.List;
 
@@ -76,4 +77,38 @@ public class UserExamResultService {
     public void deleteUserExamResult(Integer id) {
         userExamResultDAOImp.delete(id);
     }
+
+    public UserStatsDTO getUserStats(Integer userId) {
+        UserStatsDTO stats = new UserStatsDTO();
+
+        stats.setTotalExams(userExamResultDAOImp.getExamCount(userId)); //prendo il numero di tutti gli esami del corso in questione
+
+        stats.setPassedExams(userExamResultDAOImp.getExamCountPassed(userId)); //prendo il numero di esami passati del corso
+
+        stats.setArithmeticAverage(userExamResultDAOImp.getAverageGrade(userId)); //media aritmetica degli esami
+
+        stats.setTotalCFU(userExamResultDAOImp.getTotalCFU(userId)); //totale CFU del corso
+
+        stats.setAcquiredCFU(userExamResultDAOImp.getAcquiredCFU(userId)); //totale dei cfu acquisiti dall'utente
+
+        Double weightSum = userExamResultDAOImp.getWeightedSum(userId);
+        Integer acquiredCfu = userExamResultDAOImp.getAcquiredCFU(userId);
+
+        if (acquiredCfu != null && acquiredCfu > 0 && weightSum != null) {
+            stats.setWeightedAverage(weightSum / acquiredCfu); //calcolo della media ponderata
+        } else {
+            stats.setWeightedAverage(0.0);
+        }
+
+        //calcolo del voto di laurea
+        if (stats.getWeightedAverage() != null) {
+            stats.setDegreeGradePrediction(stats.getWeightedAverage() * 110 / 30);
+        } else {
+            stats.setDegreeGradePrediction(0.0);
+        }
+
+        return stats;
+    }
+
+
 }

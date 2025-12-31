@@ -22,12 +22,26 @@ public class UserExamResultDAOImp implements DAO<UserExamResult, Integer> {
     private static final String UPDATE = "UPDATE user_exam_results SET grade = ?, status = ?, is_selected = ?, registration_date = ?, teacher = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM user_exam_results WHERE id = ?";
     private static final String DELETE_BY_USER = "DELETE FROM user_exam_results WHERE user_id = ?";
-    private static final String SELECT_USER_EXAM_DTO =
-            "SELECT uer.id, ce.name as exam_name, ce.cfu, ce.academic_year, ce.is_elective, " +
-                    "uer.grade, uer.status, uer.registration_date, uer.teacher " +
-                    "FROM user_exam_results uer " +
-                    "JOIN course_exams ce ON uer.course_exam_id = ce.id " +
-                    "WHERE uer.user_id = ?";
+    private static final String SELECT_USER_EXAM_DTO = "SELECT uer.id, ce.name as exam_name, ce.cfu, ce.academic_year, ce.is_elective, " +
+            "uer.grade, uer.status, uer.registration_date, uer.teacher "+
+            "FROM user_exam_results uer "+
+            "JOIN course_exams ce ON uer.course_exam_id = ce.id "+
+            "WHERE uer.user_id = ?";
+    private static final String SELECT_EXAMS_COUNTS = "SELECT COUNT(*) FROM user_exam_results WHERE user_id = ?";
+    private static final String SELECT_EXAM_COUNTS_PASSED = "SELECT COUNT(*) FROM user_exam_results WHERE user_id = ? AND status = 'PASSED'";
+    private static final String SELECT_AVERAGE_GRADE = "SELECT AVG(grade) FROM user_exam_results WHERE user_id = ? AND status = 'PASSED'";
+
+    private static final String SELECT_TOTAL_CFU = "SELECT SUM(ce.cfu) FROM user_exam_results uer" +
+            " JOIN course_exams ce ON uer.course_exam_id = ce.id" +
+            " WHERE uer.user_id = ?";
+
+    private static final String SELECT_ACQUIRED_CFU = "SELECT SUM(ce.cfu) FROM user_exam_results uer " +
+            "JOIN course_exams ce ON uer.course_exam_id = ce.id" +
+            " WHERE uer.user_id = ? AND uer.status = 'PASSED'";
+
+    private static final String SELECT_WEIGHTED_SUM = "SELECT SUM(ce.cfu * uer.grade) FROM user_exam_results uer " +
+            "JOIN course_exams ce ON uer.course_exam_id = ce.id" +
+            " WHERE uer.user_id = ? AND uer.status = 'PASSED'";
 
     public UserExamResultDAOImp(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -84,11 +98,43 @@ public class UserExamResultDAOImp implements DAO<UserExamResult, Integer> {
             dto.setCfu(rs.getInt("cfu"));
             dto.setAcademicYear(rs.getInt("academic_year"));
             dto.setIsElective(rs.getBoolean("is_elective"));
-            dto.setGrade(rs.getInt("grade"));
+
+            // Gestione NULL per grade
+            Integer grade = rs.getObject("grade", Integer.class);
+            dto.setGrade(grade);
+
             dto.setStatus(rs.getString("status"));
-            dto.setRegistrationDate(rs.getDate("registration_date").toLocalDate());
+
+            // Gestione NULL per registration_date
+            java.sql.Date date = rs.getDate("registration_date");
+            dto.setRegistrationDate(date != null ? date.toLocalDate() : null);
+
             dto.setTeacher(rs.getString("teacher"));
             return dto;
         }, userId);
+    }
+
+    public Integer getExamCount(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_EXAMS_COUNTS, Integer.class, userId);
+    }
+
+    public Integer getExamCountPassed(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_EXAM_COUNTS_PASSED, Integer.class, userId);
+    }
+
+    public Double getAverageGrade(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_AVERAGE_GRADE, Double.class, userId);
+    }
+
+    public Integer getTotalCFU(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_TOTAL_CFU, Integer.class, userId);
+    }
+
+    public Integer getAcquiredCFU(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_ACQUIRED_CFU, Integer.class, userId);
+    }
+
+    public Double getWeightedSum(Integer userId) {
+        return jdbcTemplate.queryForObject(SELECT_WEIGHTED_SUM, Double.class, userId);
     }
 }
