@@ -31,7 +31,7 @@ export class LoginComponent {
     this.authService.login(this.login).subscribe({
       next: (res) => {
         this.authService.setLoggedUser(res);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/app/dashboard']);
       },
       error: (err) => {
         if (err.status === 401 || err.status === 400) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseService } from '../../services/course.service';
+import {Router, RouterLink} from '@angular/router';
 import { AuthService } from '../../services/auth';
 
 @Component({
@@ -22,7 +23,8 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,7 @@ export class CoursesComponent implements OnInit {
       next: () => {
         this.successMessage = 'Selection saved successfully!';
         this.errorMessage = '';
+        this.router.navigate(['/app/dashboard']);
       },
       error: (err) => {
         console.log('Error saving:', err);
