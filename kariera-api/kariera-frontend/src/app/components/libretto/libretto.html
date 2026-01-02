@@ -1,1 +1,14 @@
-<p>libretto works!</p>
+<div class="libretto-wrapper">
+  <div class="libretto-header">
+    <div class="header-text">
+      <h1>Libretto</h1>
+      <p>Review your academic history here.</p>
+    </div>
+    <button class="add-button">+</button>
+  </div>
+
+  <div class="exams-list">
+    <app-exam-card *ngFor="let exam of exams" [exam]="exam" (examClicked)="openPopUp($event)">
+    </app-exam-card>
+  </div>
+</div>

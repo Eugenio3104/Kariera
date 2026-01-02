@@ -1,0 +1,13 @@
+<div class="exam-card" (click)="onExamClick()">
+  <div class="exam-info">
+    <h3>{{ exam.examName }}</h3>
+    <p class="date">Registration date : {{ exam.registrationDate || '--' }}</p>
+    <p class="cfu">cfu : {{ exam.cfu }}</p>
+    <p class="teacher">Teacher : {{exam.teacher || '--'}}</p>
+  </div>
+  <div class="exam-grade">
+    <span class="grade-label">Grade</span>
+    <span class="grade-value" *ngIf="exam.grade">{{ exam.grade }}</span>
+    <span class="grade-value" *ngIf="!exam.grade">--</span>
+  </div>
+</div>
