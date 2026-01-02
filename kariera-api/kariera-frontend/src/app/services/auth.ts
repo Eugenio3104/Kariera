@@ -42,4 +42,12 @@ export class AuthService {
     return this.http.get(this.auth_api + '/me', { withCredentials: true });
   }
 
+  logout(){
+    return this.http.post(this.auth_api + '/logout', {} , { withCredentials: true });
+  }
+
+  clearLoggedUser(){
+    this.userLogged = null;
+  }
+
 }
