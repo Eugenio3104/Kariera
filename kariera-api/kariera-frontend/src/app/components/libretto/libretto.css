@@ -1,0 +1,54 @@
+.libretto-wrapper {
+    background: #e5e7eb;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.libretto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.header-text h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: #000;
+}
+
+.header-text p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+.add-button {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.add-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.exams-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

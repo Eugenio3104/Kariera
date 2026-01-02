@@ -1,0 +1,115 @@
+.popup-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.popup-container {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.popup-header {
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.error-message {
+    padding: 12px 24px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-left: 4px solid #dc2626;
+}
+
+.popup-body {
+    padding: 24px;
+}
+
+.input {
+    margin-bottom: 20px;
+}
+
+.input label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.text-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+    box-sizing: border-box;
+}
+
+.text-input:focus {
+    border-color: #3b82f6;
+    background-color: white;
+}
+
+.button {
+    padding: 24px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancel,
+.save {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.cancel {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.cancel:hover {
+    opacity: 0.8;
+}
+
+.save {
+    background: linear-gradient(to right, #3b82f6, #1e3a8a);
+    color: white;
+}
+
+.save:hover {
+    opacity: 0.9;
+}

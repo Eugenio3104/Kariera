@@ -1,0 +1,137 @@
+.popup-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.popup-box {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.error{
+    padding: 12px 24px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-left: 4px solid #dc2626;
+}
+
+.exams-list {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.exam-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.exam-row:last-child {
+    border-bottom: none;
+}
+
+.exam-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.exam-row label {
+    cursor: pointer;
+    font-size: 1rem;
+    color: #000;
+}
+
+.cfu {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.footer {
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.credits-counter {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.total {
+    font-weight: 600;
+    color: #3b82f6;
+    font-size: 1.1rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancel,
+.confirm {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.cancel {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.cancel:hover {
+    opacity: 0.8;
+}
+
+.confirm {
+    background: linear-gradient(to right, #3b82f6, #1e3a8a);
+    color: white;
+}
+
+.confirm:hover {
+    opacity: 0.9;
+}

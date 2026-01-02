@@ -1,1 +1,24 @@
-<p>libretto works!</p>
+<div class="libretto-wrapper">
+  <div class="libretto-header">
+    <div class="header-text">
+      <h1>Libretto</h1>
+      <p>Review your academic history here.</p>
+    </div>
+    <button class="add-button" (click)="openElectivePopup()">+</button>
+  </div>
+
+  <div class="exams-list">
+    <app-exam-card *ngFor="let exam of exams" [exam]="exam" (examClicked)="openPopUp($event)">
+    </app-exam-card>
+  </div>
+</div>
+<app-exam-pop-up [exam]="selectedExam" [showPopUp]="showPopUp" [errorMessage]="errorMessage"
+  (closePopup)="closePopup()" (saveExam)="saveExam($event)">
+</app-exam-pop-up>
+
+<app-elective-exam-popup
+  [openPopup]="showElectivePopup"
+  [courseId]="userCourseId"
+  (closePopup)="closeElectivePopup()"
+  (saveSelection)="saveElectiveSelection($event)">
+</app-elective-exam-popup>
