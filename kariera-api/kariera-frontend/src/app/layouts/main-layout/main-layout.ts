@@ -41,5 +41,18 @@ export class MainLayoutComponent implements OnInit {
     return (firstInitial + lastInitial).toUpperCase();
   }
 
-
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.authService.clearLoggedUser();
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Logout error:', err);
+        // Anche se il backend fallisce, pulisci comunque
+        this.authService.clearLoggedUser();
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 }

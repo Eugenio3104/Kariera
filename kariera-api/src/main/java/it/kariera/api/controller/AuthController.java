@@ -45,4 +45,10 @@ public class AuthController {
         }
         return ResponseEntity.status(401).body("Not authenticated");
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session){
+        session.invalidate();
+        return ResponseEntity.ok("Logged out");
+    }
 }
