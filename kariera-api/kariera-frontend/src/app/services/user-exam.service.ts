@@ -16,4 +16,8 @@ export class UserExamService {
     return this.http.get<UserExam[]>(`${this.apiUrl}/user-exam-results/by-user/${userId}/details`, {withCredentials: true});
   }
 
+  updateExam(examId: number, exam: UserExam): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/user-exam-results/${examId}`, exam, { withCredentials: true });
+  }
+
 }

@@ -1,0 +1,35 @@
+<div class="popup-background" *ngIf="showPopUp" (click)="close()">
+    <div class="popup-container" (click)="$event.stopPropagation()" *ngIf="examCopy">
+        <div class="popup-header">
+            <h2>{{ exam?.examName }}</h2>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <div class="popup-body">
+            <div class="input">
+                <label>Registration Date</label>
+                <input type="date" [(ngModel)]="examCopy.registrationDate" class="text-input">
+            </div>
+
+            <div class="input">
+                <label>Grade</label>
+                <input type="number" [(ngModel)]="examCopy.grade" min="18" max="30" class="text-input"
+                    placeholder="18-30">
+            </div>
+
+            <div class="input">
+                <label>Teacher</label>
+                <input type="text" [(ngModel)]="examCopy.teacher" class="text-input" placeholder="Teacher's name">
+            </div>
+
+        </div>
+
+        <div class="button">
+            <button class="cancel" (click)="close()">Cancel</button>
+            <button class="save" (click)="save()">Save</button>
+        </div>
+    </div>
+</div>

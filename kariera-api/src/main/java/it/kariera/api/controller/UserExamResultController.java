@@ -2,6 +2,7 @@ package it.kariera.api.controller;
 
 import it.kariera.api.dto.ElectiveExamDTO;
 import it.kariera.api.dto.UserExamDTO;
+import it.kariera.api.dto.UserExamUpdateDTO;
 import it.kariera.api.model.UserExamResult;
 import it.kariera.api.service.UserExamResultService;
 import org.springframework.http.ResponseEntity;
@@ -63,10 +64,13 @@ public class UserExamResultController {
 
     // Aggiorna un risultato
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUserExamResult(@PathVariable Integer id,
-            @RequestBody UserExamResult userExamResult) {
-        userExamResult.setId(id);
-        userExamResultService.updateUserExamResult(userExamResult);
+    public ResponseEntity<Void> updateUserExamResult(@PathVariable Integer id, @RequestBody UserExamUpdateDTO updateDTO) {
+        UserExamResult exam = userExamResultService.getUserExamResultById(id);
+        exam.setGrade(updateDTO.getGrade());
+        exam.setTeacher(updateDTO.getTeacher());
+        exam.setRegistrationDate(updateDTO.getRegistrationDate());
+        exam.setStatus(updateDTO.getStatus());
+        userExamResultService.updateUserExamResult(exam);
         return ResponseEntity.ok().build();
     }
 

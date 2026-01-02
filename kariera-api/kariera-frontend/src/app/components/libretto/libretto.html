@@ -12,3 +12,6 @@
     </app-exam-card>
   </div>
 </div>
+<app-exam-pop-up [exam]="selectedExam" [showPopUp]="showPopUp" [errorMessage]="errorMessage"
+  (closePopup)="closePopup()" (saveExam)="saveExam($event)">
+</app-exam-pop-up>
