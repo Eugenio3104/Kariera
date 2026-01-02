@@ -4,7 +4,7 @@
       <h1>Libretto</h1>
       <p>Review your academic history here.</p>
     </div>
-    <button class="add-button">+</button>
+    <button class="add-button" (click)="openElectivePopup()">+</button>
   </div>
 
   <div class="exams-list">
@@ -15,3 +15,10 @@
 <app-exam-pop-up [exam]="selectedExam" [showPopUp]="showPopUp" [errorMessage]="errorMessage"
   (closePopup)="closePopup()" (saveExam)="saveExam($event)">
 </app-exam-pop-up>
+
+<app-elective-exam-popup
+  [openPopup]="showElectivePopup"
+  [courseId]="userCourseId"
+  (closePopup)="closeElectivePopup()"
+  (saveSelection)="saveElectiveSelection($event)">
+</app-elective-exam-popup>

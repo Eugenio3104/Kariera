@@ -88,4 +88,14 @@ public class UserExamDTO {
     public void setTeacher(String teacher) {
         this.teacher = teacher;
     }
+
+    private Boolean isSelected;
+
+    public Boolean getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Boolean isSelected) {
+        this.isSelected = isSelected;
+    }
 }

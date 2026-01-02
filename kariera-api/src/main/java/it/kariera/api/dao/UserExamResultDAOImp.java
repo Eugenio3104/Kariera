@@ -23,9 +23,9 @@ public class UserExamResultDAOImp implements DAO<UserExamResult, Integer> {
     private static final String DELETE = "DELETE FROM user_exam_results WHERE id = ?";
     private static final String DELETE_BY_USER = "DELETE FROM user_exam_results WHERE user_id = ?";
     private static final String SELECT_USER_EXAM_DTO = "SELECT uer.id, ce.name as exam_name, ce.cfu, ce.academic_year, ce.is_elective, " +
-            "uer.grade, uer.status, uer.registration_date, uer.teacher "+
-            "FROM user_exam_results uer "+
-            "JOIN course_exams ce ON uer.course_exam_id = ce.id "+
+            "uer.grade, uer.status, uer.registration_date, uer.teacher, uer.is_selected " +
+            "FROM user_exam_results uer " +
+            "JOIN course_exams ce ON uer.course_exam_id = ce.id " +
             "WHERE uer.user_id = ?";
     private static final String SELECT_EXAMS_COUNTS = "SELECT COUNT(*) FROM user_exam_results WHERE user_id = ?";
     private static final String SELECT_EXAM_COUNTS_PASSED = "SELECT COUNT(*) FROM user_exam_results WHERE user_id = ? AND status = 'PASSED'";
@@ -110,6 +110,7 @@ public class UserExamResultDAOImp implements DAO<UserExamResult, Integer> {
             dto.setRegistrationDate(date != null ? date.toLocalDate() : null);
 
             dto.setTeacher(rs.getString("teacher"));
+            dto.setIsSelected(rs.getBoolean("is_selected"));
             return dto;
         }, userId);
     }

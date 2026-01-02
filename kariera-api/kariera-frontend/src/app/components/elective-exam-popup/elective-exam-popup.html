@@ -1,0 +1,33 @@
+<div class="popup-bg" *ngIf="openPopup" (click)="close()">
+    <div class="popup-box" (click)="$event.stopPropagation()">
+        <div class="header">
+            <h2>Select Elective Exams</h2>
+            <p class="subtitle">You can choose up to a maximum of 15 credits</p>
+        </div>
+
+        <div class="error" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <div class="exams-list">
+            <div class="exam-row" *ngFor="let exam of electiveExams">
+                <input type="checkbox" [id]="'exam-' + exam.id" [checked]="isSelected(exam.id)"
+                    (change)="toggleSelection(exam.id, exam.cfu)">
+                <label [for]="'exam-' + exam.id">
+                    {{ exam.name }} <span class="cfu">({{ exam.cfu }} CFU)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="credits-counter">
+                <span>Selected credits: </span>
+                <span class="total">{{ totalCfu }}/15</span>
+            </div>
+            <div class="buttons">
+                <button class="cancel" (click)="close()">Cancel</button>
+                <button class="confirm" (click)="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,3 +14,12 @@ export interface StudyAreaWithCourses {
   name: string;
   courses: Course[];
 }
+
+export interface CourseExam {
+  id: number;
+  courseId: number;
+  name: string;
+  cfu: number;
+  academicYear: number;
+  isElective: boolean;
+}

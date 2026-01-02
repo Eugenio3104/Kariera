@@ -8,4 +8,5 @@ export interface UserExam {
   status: string;
   registrationDate: string | null;
   teacher: string;
+  isSelected?: boolean;
 }
