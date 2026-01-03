@@ -1,39 +1,43 @@
-package it.kariera.api.model;
+package it.kariera.api.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
- * MODELLO che rappresenta un'attività didattica (lezione) nel calendario.
- * Questa classe corrisponde alla tabella "activities" nel database.
+ * DTO (Data Transfer Object) per trasferire i dati delle attività tra frontend e backend.
  *
- * Contiene tutte le informazioni di una lezione:
- * - Quando si svolge (data e orari)
- * - Dove (aula)
- * - Cosa (nome corso)
- * - Chi (professore)
- * - Di chi è (userId)
+ * DIFFERENZA CON Activity:
+ * - Activity è il modello completo usato internamente (include userId)
+ * - ActivityDTO è la versione "pubblica" inviata al frontend (NON include userId per sicurezza)
+ *
+ * Il userId viene preso dalla sessione HTTP, non dal body della richiesta!
  */
-public class Activity {
+public class ActivityDTO {
 
     private Integer id;
-
     private LocalTime startTime;
-
     private LocalTime endTime;
-
     private LocalDate date;
-
     private String courseName;
-
     private String room;
-
-
     private String professor;
 
-    private Integer userId;
+    // Costruttore vuoto
+    public ActivityDTO() {}
 
-    public Activity() {}
+    // Costruttore completo (utile per creare DTO velocemente)
+    public ActivityDTO(Integer id, LocalTime startTime, LocalTime endTime,
+                       LocalDate date, String courseName, String room, String professor) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
+        this.courseName = courseName;
+        this.room = room;
+        this.professor = professor;
+    }
+
+    // ==================== GETTERS E SETTERS ====================
 
     public Integer getId() {
         return id;
@@ -89,13 +93,5 @@ public class Activity {
 
     public void setProfessor(String professor) {
         this.professor = professor;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }
