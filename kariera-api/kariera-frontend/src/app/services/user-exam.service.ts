@@ -28,4 +28,9 @@ export class UserExamService {
     return this.http.put<void>(`${this.apiUrl}/user-exam-results/elective-selection`, body, { withCredentials: true });
   }
 
+  // Recupera le statistiche degli esami effettuati da un utente
+  getUserStatistics(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user-exam-results/by-user/${userId}/statistics`, {withCredentials: true});
+  }
+
 }
