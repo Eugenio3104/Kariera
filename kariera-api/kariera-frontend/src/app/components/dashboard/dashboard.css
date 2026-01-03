@@ -1,0 +1,125 @@
+.container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #eeeff1;
+  border-radius: 16px;
+}
+
+.header {
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.header p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.loading-text {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #999;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.stats-box {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 25px;
+}
+
+.stats-box h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-row .label {
+  color: #333;
+  font-weight: 500;
+}
+
+.stat-row .value {
+  color: #000;
+  font-weight: 600;
+}
+
+.chart-box {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.chart-box h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.chart-area {
+  height: 300px;
+  position: relative;
+}
+
+.credits-box {
+  background: #f5f5f5;
+  border-radius: 10px;
+  padding: 25px;
+}
+
+.doughnut-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.big-number {
+  font-size: 40px;
+  font-weight: 700;
+  color: #000;
+}
+
+.small-text {
+  font-size: 16px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.tiny-text {
+  font-size: 14px;
+  color: #999;
+}

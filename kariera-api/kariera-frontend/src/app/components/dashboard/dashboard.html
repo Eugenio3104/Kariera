@@ -1,1 +1,53 @@
-<p>dashboard works!</p>
+<div class="container">
+  <h1>Dashboard</h1>
+  <div class="header">
+    <p>An overview of your stats, credits, and progress.</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-text">Loading...</div>
+
+  <div *ngIf="!loading" class="content">
+    <div class="left-side">
+      <div class="stats-box">
+        <h2>Key Statistics</h2>
+        <div class="stat-row">
+          <!-- questi 1.1-1 servono per arrotondare il numero decimale senno diventa troppo lungo -->
+          <span class="label">Weighted Average:</span>
+          <span class="value">{{ avgWeighted | number:'1.1-1' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="label">Graduation Projection:</span>
+          <span class="value">{{ projectedGrade | number:'1.1-1' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="label">Arithmetic Average:</span>
+          <span class="value">{{ avgArithmetic | number:'1.1-1' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="label">Exams Passed:</span>
+          <span class="value">{{ examsPassed }}/{{ examsTotal }}</span>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <h2>Grade Distribution</h2>
+        <div class="chart-area">
+          <canvas #barChart baseChart [data]="barData" [options]="barOptions" [type]="barType"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-side">
+      <div class="credits-box">
+        <div class="doughnut-container">
+          <canvas #doughnutChart baseChart [data]="circleData" [options]="circleOptions" [type]="circleType"></canvas>
+          <div class="center-text">
+            <div class="big-number">{{ creditPercent }}%</div>
+            <div class="small-text">{{ earnedCFU }}/{{ totCFU }}</div>
+            <div class="tiny-text">Credit earned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
