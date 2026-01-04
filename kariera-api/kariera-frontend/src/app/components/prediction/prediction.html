@@ -1,1 +1,111 @@
-<p>prediction works!</p>
+<div class="page">
+    <h1>Grade Prediction</h1>
+    <p class="subtitle">Simulate future exam grades to see how they would impact your academic statistics</p>
+
+    <div class="box-wrapper">
+
+        <div class="info-box">
+            <h2>Current Stats</h2>
+            <div class="info-line">
+                <span>Weighted Average</span>
+                <b>{{ currentStats.weightedAvg | number:'1.2-2' }}</b>
+            </div>
+            <div class="info-line">
+                <span>Arithmetic Average</span>
+                <b>{{ currentStats.arithmeticAvg | number:'1.2-2' }}</b>
+            </div>
+            <div class="info-line">
+                <span>Credits</span>
+                <b>{{ currentStats.acquiredCFU }}/{{ currentStats.totalCFU }}</b>
+            </div>
+            <div class="info-line">
+                <span>Projected Grade</span>
+                <b>{{ currentStats.projectedGrade | number:'1.0-0' }}/110</b>
+            </div>
+        </div>
+
+        <div class="info-box middle">
+            <h2>Add Exams</h2>
+
+            <select [(ngModel)]="selectedExamId" class="exam-picker">
+                <option [value]="null">Select exam...</option>
+                <option *ngFor="let exam of notPassedExams" [value]="exam.id">
+                    {{ exam.examName }} ({{ exam.cfu }} CFU)
+                </option>
+            </select>
+
+            <input type="number" [(ngModel)]="selectedGrade" min="18" max="30" class="grade-box" placeholder="18" />
+
+            <button class="add-btn" (click)="addHypotheticalExam()" [disabled]="!selectedExamId">
+                Add Exam
+            </button>
+
+            <div class="exam-cards" *ngIf="hypotheticalExams.length > 0">
+                <div class="exam-card" *ngFor="let item of hypotheticalExams; let i = index">
+                    <div class="exam-details">
+                        <p class="exam-title">{{ item.exam.examName }}</p>
+                        <p class="exam-credits">{{ item.exam.cfu }} CFU</p>
+                    </div>
+                    <div class="exam-actions">
+                        <input type="number" [(ngModel)]="item.grade"
+                            (ngModelChange)="updateHypotheticalGrade(i, item.grade)" min="18" max="30"
+                            class="small-grade" />
+                        <button class="delete-btn" (click)="removeHypotheticalExam(i)">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <button *ngIf="hasChanges()" class="reset-btn" (click)="resetPrediction()">
+                Reset All
+            </button>
+        </div>
+
+        <div class="info-box">
+            <h2>Predicted Stats</h2>
+            <div class="info-line">
+                <span>Weighted Average</span>
+                <b>
+                    {{ predictedStats.weightedAvg | number:'1.2-2' }}
+                    <small *ngIf="hasChanges()"
+                        [class]="getDifference(currentStats.weightedAvg, predictedStats.weightedAvg) > 0 ? 'green' : 'red'">
+                        ({{ getDifference(currentStats.weightedAvg, predictedStats.weightedAvg) > 0 ? '+' : '' }}{{
+                        getDifference(currentStats.weightedAvg, predictedStats.weightedAvg) | number:'1.2-2' }})
+                    </small>
+                </b>
+            </div>
+            <div class="info-line">
+                <span>Arithmetic Average</span>
+                <b>
+                    {{ predictedStats.arithmeticAvg | number:'1.2-2' }}
+                    <small *ngIf="hasChanges()"
+                        [class]="getDifference(currentStats.arithmeticAvg, predictedStats.arithmeticAvg) > 0 ? 'green' : 'red'">
+                        ({{ getDifference(currentStats.arithmeticAvg, predictedStats.arithmeticAvg) > 0 ? '+' : '' }}{{
+                        getDifference(currentStats.arithmeticAvg, predictedStats.arithmeticAvg) | number:'1.2-2' }})
+                    </small>
+                </b>
+            </div>
+            <div class="info-line">
+                <span>Credits</span>
+                <b>
+                    {{ predictedStats.acquiredCFU }}/{{ predictedStats.totalCFU }}
+                    <small *ngIf="hasChanges()" class="green">
+                        (+{{ getDifference(currentStats.acquiredCFU, predictedStats.acquiredCFU) }})
+                    </small>
+                </b>
+            </div>
+            <div class="info-line">
+                <span>Projected Grade</span>
+                <b>
+                    {{ predictedStats.projectedGrade | number:'1.0-0' }}/110
+                    <small *ngIf="hasChanges()"
+                        [class]="getDifference(currentStats.projectedGrade, predictedStats.projectedGrade) > 0 ? 'green' : 'red'">
+                        ({{ getDifference(currentStats.projectedGrade, predictedStats.projectedGrade) > 0 ? '+' : ''
+                        }}{{ getDifference(currentStats.projectedGrade, predictedStats.projectedGrade) | number:'1.0-0'
+                        }})
+                    </small>
+                </b>
+            </div>
+        </div>
+
+    </div>
+</div>
