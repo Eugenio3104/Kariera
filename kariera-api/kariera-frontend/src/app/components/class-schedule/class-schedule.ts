@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { CalendarService } from '../../services/calendar.service';
 import { Activity } from '../../models/activity.model';
 
+//COMMENTO
+
 @Component({
   selector: 'app-class-schedule',
   standalone: true,

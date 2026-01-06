@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+//COMMENTO
 /**
  * SERVICE che contiene la logica di business per la gestione del calendario.
  *
