@@ -185,7 +185,7 @@ export class ClassScheduleComponent implements OnInit {
     }
 
     if (this.isEditMode && this.activityForm.id) {
-      // ✅ SALVA L'ID E I DATI IN VARIABILI LOCALI PRIMA DI CHIUDERE IL MODAL
+      // salva id e dati in variabili locali
       const activityId = this.activityForm.id;
       const activityData = { ...this.activityForm };
 
@@ -198,9 +198,8 @@ export class ClassScheduleComponent implements OnInit {
         this.activities[index] = { ...activityData };
       }
 
-      this.closeModal();  // ⚠️ Questo resetta activityForm!
+      this.closeModal();
 
-      // ✅ USA LE VARIABILI LOCALI INVECE DI this.activityForm
       this.calendarService.updateActivity(activityId, activityData).subscribe({
         next: (updated) => {
           console.log('✅ Successfully updated in backend');
