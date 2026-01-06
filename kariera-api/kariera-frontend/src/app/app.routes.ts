@@ -29,6 +29,10 @@ export const routes: Routes = [
         path: 'prediction',
         loadComponent: () => import('./components/prediction/prediction').then(m => m.PredictionComponent)
       },
+      {
+        path: 'class-schedule',
+        loadComponent: () => import('./components/class-schedule/class-schedule').then(m => m.ClassScheduleComponent)
+      },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
