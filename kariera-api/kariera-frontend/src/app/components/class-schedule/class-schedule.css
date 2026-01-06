@@ -1,4 +1,4 @@
-/* Container principale grigio (come Dashboard e Libretto) */
+/* Container principale grigio */
 .calendar-wrapper {
   background: #e5e7eb;
   border-radius: 16px;
@@ -35,7 +35,7 @@
   align-items: center;
 }
 
-/* Bottoni di navigazione (BLU MEDIO UNIFORME) */
+/* Bottoni di navigazione */
 .nav-button {
   background-color: #2563eb;
   color: white;
@@ -54,7 +54,7 @@
   box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
 }
 
-/* Bottone "Today" grigio */
+/* Bottone Today */
 .today-button-gray {
   background-color: #6c757d;
   color: white;
@@ -73,7 +73,7 @@
   box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
 }
 
-/* Bottone "Add Activity" grigio */
+/* Bottone Add Activity */
 .add-button-gray {
   background-color: #6c757d;
   color: white;
@@ -95,9 +95,9 @@
 /* Griglia del calendario */
 .calendar-grid {
   display: grid;
-  grid-template-columns: 80px repeat(6, 1fr);
-  gap: 1px;
-  background-color: #ddd;
+  grid-template-columns: 80px repeat(5, 1fr);
+  gap: 1px;  /* ✅ RIPRISTINA: 1px */
+  background-color: #ddd;  /* ✅ RIPRISTINA: #ddd */
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
@@ -124,7 +124,7 @@
   font-size: 14px;
 }
 
-/* Header dei giorni (BLU MEDIO UNIFORME) */
+/* Header dei giorni */
 .day-header {
   background-color: #2563eb;
   color: white;
@@ -140,82 +140,98 @@
   opacity: 0.9;
 }
 
-/* Celle dei giorni - completamente bianche */
+/* Celle dei giorni */
 .day-cell {
-  background-color: white;
-  padding: 8px;
-  min-height: 80px;
-  height: 80px;
+  background-color: white;  /* ✅ Sempre bianco */
+  padding: 0;
+  min-height: 100px;
+  height: 100px;
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s;
   overflow: visible;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #e5e5e5;  /* ✅ Bordo più leggero */
+  border-right: 1px solid #e5e5e5;
 }
 
 .day-cell:hover {
   background-color: #f9f9f9;
 }
 
-/* Card attività (BLU MEDIO UNIFORME) */
+
+/* Card attività */
 .activity-card {
   background-color: #2563eb;
   color: white;
-  padding: 10px;
+  padding: 6px 8px;
+  padding-top: 26px;
   border-radius: 8px;
-  margin: 8px;
-  font-size: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: relative;
+  margin: 4px;
+  font-size: 11px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;  /* ✅ Invece di width calc */
   transition: transform 0.2s, box-shadow 0.2s;
   z-index: 10;
   overflow: hidden;
   box-sizing: border-box;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .activity-card:hover {
-  transform: translateX(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   z-index: 20;
+  border-color: rgba(255, 255, 255, 0.4);
 }
+
+
 
 .activity-title {
   font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 13px;
+  margin-bottom: 3px;
+  font-size: 12px;
+  line-height: 1.2;
 }
 
 .activity-details {
-  font-size: 11px;
+  font-size: 10px;
   opacity: 0.95;
   margin-top: 2px;
+  line-height: 1.3;
 }
 
 /* Bottone elimina */
 .delete-btn {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  background: rgba(255, 255, 255, 0.3);
-  border: none;
+  top: 3px;
+  right: 3px;
+  background: rgba(220, 38, 38, 0.9);
+  border: 2px solid white;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
   font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
-  z-index: 30;
+  transition: all 0.2s;
+  z-index: 10000;
+  pointer-events: auto;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .delete-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(220, 38, 38, 1);
+  transform: scale(1.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
 }
 
-/* POPUP MODAL (identico a exam-pop-up) */
+/* POPUP MODAL */
 .popup-background {
   position: fixed;
   top: 0;
@@ -335,7 +351,7 @@
 /* Responsive */
 @media (max-width: 1200px) {
   .calendar-grid {
-    grid-template-columns: 70px repeat(6, 1fr);
+    grid-template-columns: 70px repeat(5, 1fr);
   }
 
   .day-header {
@@ -365,13 +381,20 @@
   }
 
   .calendar-grid {
-    grid-template-columns: 60px repeat(6, 1fr);
+    grid-template-columns: 60px repeat(5, 1fr);
     font-size: 11px;
   }
 
   .activity-card {
     font-size: 10px;
-    padding: 6px;
+    padding: 5px 6px;
+    padding-top: 24px;
+  }
+
+  .delete-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
   }
 
   .popup-container {

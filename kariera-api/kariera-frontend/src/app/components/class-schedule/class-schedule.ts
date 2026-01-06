@@ -14,7 +14,7 @@ import { Activity } from '../../models/activity.model';
 export class ClassScheduleComponent implements OnInit {
 
   activities: Activity[] = [];
-  days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   timeSlots: string[] = [
     '08:00', '09:00', '10:00', '11:00', '12:00',
     '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'
@@ -26,6 +26,7 @@ export class ClassScheduleComponent implements OnInit {
   errorMessage: string = '';
 
   activityForm: Activity = {
+    id: undefined,
     startTime: '',
     endTime: '',
     date: '',
@@ -49,7 +50,7 @@ export class ClassScheduleComponent implements OnInit {
     monday.setDate(today.getDate() + diff);
 
     this.currentWeek = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
       const day = new Date(monday);
       day.setDate(monday.getDate() + i);
       this.currentWeek.push(day);
@@ -57,11 +58,11 @@ export class ClassScheduleComponent implements OnInit {
   }
 
   changeWeek(direction: number): void {
-    const firstDay = this.currentWeek[0];
+    const firstDay = new Date(this.currentWeek[0]);
     firstDay.setDate(firstDay.getDate() + (direction * 7));
 
     this.currentWeek = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
       const day = new Date(firstDay);
       day.setDate(firstDay.getDate() + i);
       this.currentWeek.push(day);
@@ -76,10 +77,13 @@ export class ClassScheduleComponent implements OnInit {
     this.calendarService.getAllActivities().subscribe({
       next: (data) => {
         this.activities = data;
+        console.log('✅ Activities loaded:', data);
       },
       error: (err) => {
-        console.error('Error loading activities:', err);
-        alert('Unable to load activities. Please check authentication.');
+        console.error('❌ Error loading activities:', err);
+        if (err.status === 0) {
+          console.warn('⚠️ Backend not available');
+        }
       }
     });
   }
@@ -99,24 +103,17 @@ export class ClassScheduleComponent implements OnInit {
     const [startHour, startMin] = startTime.split(':').map(Number);
     const [endHour, endMin] = endTime.split(':').map(Number);
 
-    const startTotalMinutes = startHour * 60 + startMin;
-    const endTotalMinutes = endHour * 60 + endMin;
-
-    const durationMinutes = endTotalMinutes - startTotalMinutes;
+    const durationMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
     const durationHours = durationMinutes / 60;
 
-    const slotHeight = 81;
+    const cellWhiteHeight = 101;
+    const gapHeight = 10;
+    const cardPadding = 8;
 
-    // Con margin: 8px su tutti i lati, riduciamo compensation
-    // 65 - 16px (margin top + bottom) = 49
-    const baseHeight = (durationHours * slotHeight) - 1;
-    const compensation = 49; //Ridotto da 65 a 49 per compensare margin
+    const totalHeight = (durationHours * cellWhiteHeight) + ((durationHours - 1) * gapHeight) - cardPadding;
 
-    return baseHeight + compensation;
+    return Math.round(totalHeight);
   }
-
-
-
 
   formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -127,13 +124,14 @@ export class ClassScheduleComponent implements OnInit {
 
   openCreateModal(day: Date, timeSlot: string): void {
     this.isEditMode = false;
+    this.errorMessage = '';
 
-    // Calcola ora di fine (1 ora dopo l'inizio)
     const startHour = parseInt(timeSlot.split(':')[0]);
     const endHour = startHour + 1;
     const endTime = `${String(endHour).padStart(2, '0')}:00:00`;
 
     this.activityForm = {
+      id: undefined,
       startTime: `${timeSlot}:00`,
       endTime: endTime,
       date: this.formatDate(day),
@@ -145,14 +143,21 @@ export class ClassScheduleComponent implements OnInit {
   }
 
   openEditModal(activity: Activity): void {
+    console.log('📝 Opening edit modal for:', activity);
+    console.log('📝 Activity ID:', activity.id);
     this.isEditMode = true;
+    this.errorMessage = '';
     this.activityForm = { ...activity };
+    console.log('📝 ActivityForm after copy:', this.activityForm);
+    console.log('📝 ActivityForm ID:', this.activityForm.id);
     this.showModal = true;
   }
 
   closeModal(): void {
     this.showModal = false;
+    this.errorMessage = '';
     this.activityForm = {
+      id: undefined,
       startTime: '',
       endTime: '',
       date: '',
@@ -163,12 +168,15 @@ export class ClassScheduleComponent implements OnInit {
   }
 
   saveActivity(): void {
+    console.log('💾 Save called - isEditMode:', this.isEditMode);
+    console.log('💾 ActivityForm:', this.activityForm);
+    console.log('💾 ActivityForm ID:', this.activityForm.id);
+
     if (!this.validateForm()) {
-      alert('Please fill all required fields!');
+      this.errorMessage = 'Please fill all required fields!';
       return;
     }
 
-    // Assicurati che gli orari abbiano il formato corretto (HH:mm:ss)
     if (this.activityForm.startTime.length === 5) {
       this.activityForm.startTime += ':00';
     }
@@ -177,44 +185,107 @@ export class ClassScheduleComponent implements OnInit {
     }
 
     if (this.isEditMode && this.activityForm.id) {
-      this.calendarService.updateActivity(this.activityForm.id, this.activityForm).subscribe({
+      // ✅ SALVA L'ID E I DATI IN VARIABILI LOCALI PRIMA DI CHIUDERE IL MODAL
+      const activityId = this.activityForm.id;
+      const activityData = { ...this.activityForm };
+
+      console.log('📝 Updating activity:', activityId);
+
+      const originalActivity = this.activities.find(a => a.id === activityId);
+      const index = this.activities.findIndex(a => a.id === activityId);
+
+      if (index !== -1) {
+        this.activities[index] = { ...activityData };
+      }
+
+      this.closeModal();  // ⚠️ Questo resetta activityForm!
+
+      // ✅ USA LE VARIABILI LOCALI INVECE DI this.activityForm
+      this.calendarService.updateActivity(activityId, activityData).subscribe({
         next: (updated) => {
-          const index = this.activities.findIndex(a => a.id === updated.id);
-          if (index !== -1) {
-            this.activities[index] = updated;
+          console.log('✅ Successfully updated in backend');
+          const idx = this.activities.findIndex(a => a.id === updated.id);
+          if (idx !== -1) {
+            this.activities[idx] = updated;
           }
-          this.closeModal();
         },
         error: (err) => {
-          console.error('Error updating activity:', err);
-          alert('Error updating activity.');
+          console.error('❌ Backend error:', err);
+
+          if (err.status === 0 || err.status === 401) {
+            console.warn('⚠️ Backend not available - changes saved locally only');
+          } else {
+            console.error('❌ Update failed, restoring original state');
+            if (originalActivity && index !== -1) {
+              this.activities[index] = originalActivity;
+            }
+            alert('Error updating activity. Changes reverted.');
+          }
         }
       });
     } else {
       this.calendarService.createActivity(this.activityForm).subscribe({
         next: (created) => {
-          this.activities.push(created);
+          this.loadActivities();
           this.closeModal();
         },
         error: (err) => {
-          console.error('Error creating activity:', err);
-          alert('Error creating activity.');
+          console.error('❌ Error creating:', err);
+          if (err.status === 0) {
+            alert('Cannot create activity: Backend is not available.');
+          } else if (err.status === 401) {
+            alert('Session expired. Please login again.');
+          } else {
+            this.errorMessage = 'Error creating activity.';
+          }
+          this.closeModal();
         }
       });
     }
   }
 
   deleteActivity(activity: Activity): void {
-    if (!activity.id) return;
+    console.log('🗑️ Delete button clicked for:', activity);
+
+    if (!activity.id) {
+      console.error('❌ No activity ID found!');
+      return;
+    }
+
+    const isLocalId = activity.id > 1000000000000;
+
+    if (isLocalId) {
+      console.warn('⚠️ Local ID detected - activity was never saved in backend');
+
+      if (confirm(`Delete local activity "${activity.courseName}"? (Not saved in backend)`)) {
+        this.activities = this.activities.filter(a => a.id !== activity.id);
+        console.log('✅ Removed local activity from view');
+      }
+      return;
+    }
 
     if (confirm(`Delete activity "${activity.courseName}"?`)) {
+      this.activities = this.activities.filter(a => a.id !== activity.id);
+      console.log('✅ Removed from view');
+
       this.calendarService.deleteActivity(activity.id).subscribe({
         next: () => {
-          this.activities = this.activities.filter(a => a.id !== activity.id);
+          console.log('✅ Successfully deleted from backend');
         },
         error: (err) => {
-          console.error('Error deleting activity:', err);
-          alert('Error deleting activity.');
+          console.error('❌ Backend error:', err);
+
+          if (err.status === 0) {
+            console.warn('⚠️ Backend not available - activity removed from view only');
+          } else if (err.status === 401) {
+            console.warn('⚠️ Unauthorized - Please login again');
+            alert('Session expired. Please login again to sync with backend.');
+          } else if (err.status === 404) {
+            console.warn('⚠️ Activity not found in backend (already deleted)');
+          } else {
+            console.error('❌ Delete failed, but activity removed from view');
+            alert('Warning: Activity removed from view but may still exist in backend.');
+          }
         }
       });
     }

@@ -1,5 +1,5 @@
 <div class="calendar-wrapper">
-  <!-- Header con titolo e descrizione -->
+  <!-- titolo e descrizione sezione -->
   <div class="calendar-header-main">
     <div class="header-text">
       <h1>Class Schedule</h1>
@@ -13,21 +13,26 @@
     </div>
   </div>
 
-  <!-- Griglia del calendario -->
+  <!-- calendario -->
   <div class="calendar-grid">
+    <!-- riga con time e nomi giorni -->
     <div class="time-column header">Time</div>
     <div class="day-header" *ngFor="let day of days; let i = index">
       {{ day }} <br>
       <small>{{ currentWeek[i] | date:'dd/MM' }}</small>
     </div>
 
+    <!-- righe con slot orari-->
     <ng-container *ngFor="let timeSlot of timeSlots">
+      <!-- colonna orario -->
       <div class="time-column">{{ timeSlot }}</div>
 
-      <div class="day-cell" *ngFor="let day of currentWeek"
+      <!-- celle -->
+      <div class="day-cell"
+           *ngFor="let day of currentWeek.slice(0, 5)"
            (click)="openCreateModal(day, timeSlot)">
 
-        <!-- Attività con altezza dinamica -->
+        <!-- card per attivita programmatea -->
         <div class="activity-card"
              *ngFor="let activity of getActivitiesForSlot(day, timeSlot)"
              [style.height.px]="calculateActivityHeight(activity)"
@@ -37,7 +42,7 @@
             {{ activity.startTime.substring(0,5) }} - {{ activity.endTime.substring(0,5) }}
           </div>
           <div class="activity-details">
-            📍 {{ activity.room }} | 👨‍🏫 {{ activity.professor }}
+            {{ activity.room }} | {{ activity.professor }}
           </div>
           <button class="delete-btn" (click)="$event.stopPropagation(); deleteActivity(activity)">
             ❌
@@ -47,22 +52,25 @@
     </ng-container>
   </div>
 
-  <!-- Modal per creare/modificare attività -->
+  <!-- pop up per la creazione e modifica di un'attivita -->
   <div class="popup-background" *ngIf="showModal" (click)="closeModal()">
     <div class="popup-container" (click)="$event.stopPropagation()">
 
-      <!-- Header -->
+      <!-- header -->
       <div class="popup-header">
         <h2>{{ isEditMode ? 'Edit Activity' : 'New Activity' }}</h2>
       </div>
 
-      <!-- Messaggio di errore -->
+      <!-- errore -->
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
 
-      <!-- Body con form -->
+      <!-- form da compilare -->
       <div class="popup-body">
+        <!-- ✅ CAMPO HIDDEN PER ID -->
+        <input type="hidden" [(ngModel)]="activityForm.id" name="id">
+
         <div class="input">
           <label>Course Name</label>
           <input type="text" [(ngModel)]="activityForm.courseName" name="courseName"
@@ -100,7 +108,7 @@
         </div>
       </div>
 
-      <!-- Footer con bottoni -->
+      <!-- bottoni cancel e salva -->
       <div class="button">
         <button class="cancel" (click)="closeModal()">Cancel</button>
         <button class="save" (click)="saveActivity()">Save</button>
