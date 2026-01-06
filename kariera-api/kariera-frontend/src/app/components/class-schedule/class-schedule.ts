@@ -173,7 +173,11 @@ export class ClassScheduleComponent implements OnInit {
     console.log('💾 ActivityForm ID:', this.activityForm.id);
 
     if (!this.validateForm()) {
-      this.errorMessage = 'Please fill all required fields!';
+      return;
+    }
+
+    if (this.checkOverlap(this.activityForm)) {
+      this.errorMessage = 'Time slot already used';
       return;
     }
 
@@ -185,7 +189,6 @@ export class ClassScheduleComponent implements OnInit {
     }
 
     if (this.isEditMode && this.activityForm.id) {
-      // salva id e dati in variabili locali
       const activityId = this.activityForm.id;
       const activityData = { ...this.activityForm };
 
@@ -255,49 +258,88 @@ export class ClassScheduleComponent implements OnInit {
 
     if (isLocalId) {
       console.warn('⚠️ Local ID detected - activity was never saved in backend');
-
-      if (confirm(`Delete local activity "${activity.courseName}"? (Not saved in backend)`)) {
-        this.activities = this.activities.filter(a => a.id !== activity.id);
-        console.log('✅ Removed local activity from view');
-      }
+      this.activities = this.activities.filter(a => a.id !== activity.id);
+      console.log('✅ Removed local activity from view');
       return;
     }
 
-    if (confirm(`Delete activity "${activity.courseName}"?`)) {
-      this.activities = this.activities.filter(a => a.id !== activity.id);
-      console.log('✅ Removed from view');
+    this.activities = this.activities.filter(a => a.id !== activity.id);
+    console.log('✅ Removed from view');
 
-      this.calendarService.deleteActivity(activity.id).subscribe({
-        next: () => {
-          console.log('✅ Successfully deleted from backend');
-        },
-        error: (err) => {
-          console.error('❌ Backend error:', err);
+    this.calendarService.deleteActivity(activity.id).subscribe({
+      next: () => {
+        console.log('✅ Successfully deleted from backend');
+      },
+      error: (err) => {
+        console.error('❌ Backend error:', err);
 
-          if (err.status === 0) {
-            console.warn('⚠️ Backend not available - activity removed from view only');
-          } else if (err.status === 401) {
-            console.warn('⚠️ Unauthorized - Please login again');
-            alert('Session expired. Please login again to sync with backend.');
-          } else if (err.status === 404) {
-            console.warn('⚠️ Activity not found in backend (already deleted)');
-          } else {
-            console.error('❌ Delete failed, but activity removed from view');
-            alert('Warning: Activity removed from view but may still exist in backend.');
-          }
+        if (err.status === 0) {
+          console.warn('⚠️ Backend not available - activity removed from view only');
+        } else if (err.status === 401) {
+          console.warn('⚠️ Unauthorized - Please login again');
+          alert('Session expired. Please login again to sync with backend.');
+        } else if (err.status === 404) {
+          console.warn('⚠️ Activity not found in backend (already deleted)');
+        } else {
+          console.error('❌ Delete failed, but activity removed from view');
+          alert('Warning: Activity removed from view but may still exist in backend.');
         }
-      });
-    }
+      }
+    });
+  }
+
+  timeToMinutes(time: string): number {
+    const [hours, minutes] = time.substring(0, 5).split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  checkOverlap(activityToCheck: Activity): boolean {
+    return this.activities.some(activity => {
+      if (activity.id === activityToCheck.id) {
+        return false;
+      }
+
+      if (activity.date !== activityToCheck.date) {
+        return false;
+      }
+
+      const existingStart = this.timeToMinutes(activity.startTime);
+      const existingEnd = this.timeToMinutes(activity.endTime);
+      const newStart = this.timeToMinutes(activityToCheck.startTime);
+      const newEnd = this.timeToMinutes(activityToCheck.endTime);
+
+      return (newStart < existingEnd && newEnd > existingStart);
+    });
   }
 
   validateForm(): boolean {
-    return !!(
-      this.activityForm.startTime &&
-      this.activityForm.endTime &&
-      this.activityForm.date &&
-      this.activityForm.courseName &&
-      this.activityForm.room &&
-      this.activityForm.professor
-    );
+    if (
+      !this.activityForm.startTime ||
+      !this.activityForm.endTime ||
+      !this.activityForm.date ||
+      !this.activityForm.courseName ||
+      !this.activityForm.room ||
+      !this.activityForm.professor
+    ) {
+      this.errorMessage = 'Please fill all required fields';
+      return false;
+    }
+
+    const startTime = this.activityForm.startTime.substring(0, 5);
+    const endTime = this.activityForm.endTime.substring(0, 5);
+
+    const [startHour, startMin] = startTime.split(':').map(Number);
+    const [endHour, endMin] = endTime.split(':').map(Number);
+
+    const startMinutes = startHour * 60 + startMin;
+    const endMinutes = endHour * 60 + endMin;
+
+    if (startMinutes >= endMinutes) {
+      this.errorMessage = 'End time must be after start time';
+      return false;
+    }
+
+    this.errorMessage = '';
+    return true;
   }
 }
