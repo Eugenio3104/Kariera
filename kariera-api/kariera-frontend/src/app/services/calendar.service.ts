@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Activity } from '../models/activity.model';
 
-//COMMENTO
+//commento
 @Injectable({
   providedIn: 'root'
 })
