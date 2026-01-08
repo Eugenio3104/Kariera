@@ -5,6 +5,9 @@ import { CalendarService } from '../../services/calendar.service';
 import { Activity } from '../../models/activity.model';
 
 //COMMENTO
+///dhdgdg
+//hdfhdh
+
 
 @Component({
   selector: 'app-class-schedule',
@@ -177,6 +180,8 @@ export class ClassScheduleComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
+
+
 
     if (this.checkOverlap(this.activityForm)) {
       this.errorMessage = 'Time slot already used';
