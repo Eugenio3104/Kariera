@@ -40,6 +40,7 @@ export class AuthService {
     return this.http.post(this.auth_api + '/logout', {}, { withCredentials: true, responseType: 'text' });
   }
 
+
   clearLoggedUser(){
     this.userLogged = null;
   }
