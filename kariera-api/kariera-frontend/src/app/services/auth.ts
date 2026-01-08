@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   logout(){
-    return this.http.post(this.auth_api + '/logout', {} , { withCredentials: true });
+    return this.http.post(this.auth_api + '/logout', {}, { withCredentials: true, responseType: 'text' });
   }
 
   clearLoggedUser(){
