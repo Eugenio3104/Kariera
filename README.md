@@ -36,3 +36,10 @@ cd kariera-api/kariera-frontend
 npm install
 npm start
 Applicazione disponibile su: http://localhost:4200
+```
+Video integrativo del sistema dove si mostrano la maggior parte delle funzionalità : 
+
+
+https://github.com/user-attachments/assets/3e44f71e-bfd1-4571-b7c6-d4bb507e397f
+
+
